@@ -2,13 +2,16 @@
 import { useEffect, useRef } from 'react';
 
 type Props={onSelect:(rank:number)=>void};
-const ads=[
+const featured=[
   {rank:1,name:'VOIDLABS',tag:'THE FUTURE IS YOURS',bg:'#08205f',accent:'#52a8ff'},
   {rank:2,name:'AURORA',tag:'MAKE YOUR OWN LIGHT',bg:'#562184',accent:'#ff70e6'},
   {rank:3,name:'KINETIC',tag:'MOVE DIFFERENT',bg:'#cbf52c',accent:'#0a0a0a'},
   {rank:4,name:'NOVA.FM',tag:'HEAR THE UNHEARD',bg:'#921f58',accent:'#ff83ad'},
   {rank:5,name:'PIXEL.FUN',tag:'PLAY FOREVER',bg:'#b42b55',accent:'#ffbc37'},
 ];
+const supportingNames=['LAUNCH.XYZ','BUILDER.DEV','MONO','LOOP.AI','FORM','ORBIT','STACKED','NORTHSTAR','DAYBREAK','HYPERLINK','SIGNAL','MOTION','PRISM','ECHO','PARALLEL','NEON.HQ','FRAME','TOMORROW','MINT','SHIFT','ATLAS','TEMPO','VECTOR','LUMEN','LEVEL'];
+const palette=[['#102d46','#5be7ff'],['#4a183f','#ff5ecf'],['#3b4311','#e0ff43'],['#4b2013','#ff8a3d'],['#17213e','#829eff']];
+const ads=[...featured,...supportingNames.map((name,i)=>({rank:i+6,name,tag:i%2?'MAKE YOUR MARK':'LIVE IN THE SQUARE',bg:palette[i%palette.length][0],accent:palette[i%palette.length][1]}))];
 
 export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTMLCanvasElement>(null);useEffect(()=>{let disposed=false;let cleanup=()=>{};(async()=>{
   const B=await import('@babylonjs/core');if(disposed||!canvas.current)return;
@@ -34,6 +37,8 @@ export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTML
     const bm=new B.StandardMaterial('billboardMat'+ad.rank,scene);bm.diffuseTexture=tex;bm.emissiveTexture=tex;bm.emissiveColor=new B.Color3(.75,.75,.75);bm.disableLighting=true;plane.material=bm;
     const glow=new B.PointLight('adGlow'+ad.rank,new B.Vector3(x,y,z+2),scene);const c=B.Color3.FromHexString(ad.accent);glow.diffuse=c;glow.intensity=45;glow.range=18;return plane};
   addBillboard(0,0,25,-10.25,15,12);addBillboard(1,-16,18,-4.75,13,7);addBillboard(2,17,19,-3.25,14,7);addBillboard(3,-16,9,-4.75,9,4.5);addBillboard(4,17,10,-3.25,9,4.5);
+  const secondary=[[-22,24,13.2,6.8,4],[-22,16,13.2,6.8,4],[22,25,14.2,7,4],[22,17,14.2,7,4],[-8,39,-10.2,5.5,3],[8,39,-10.2,5.5,3],[-8,34,-10.2,5.5,3],[8,34,-10.2,5.5,3],[-24,10,13.2,5,2.8],[24,10,14.2,5,2.8],[-16,27,-4.7,4.8,2.6],[17,28,-3.2,4.8,2.6],[-8,8,-10.2,4.5,2.4],[0,8,-10.2,4.5,2.4],[8,8,-10.2,4.5,2.4],[-24,5,13.2,4,2.2],[24,5,14.2,4,2.2],[-16,4,-4.7,4,2.2],[17,4,-3.2,4,2.2],[-9,4,-10.2,3.8,2],[-3,4,-10.2,3.8,2],[3,4,-10.2,3.8,2],[9,4,-10.2,3.8,2],[-24,30,13.2,4,2.2],[24,31,14.2,4,2.2]] as const;
+  secondary.forEach((p,i)=>addBillboard(i+5,p[0],p[1],p[2],p[3],p[4]));
   for(let i=0;i<18;i++){const pole=B.MeshBuilder.CreateCylinder('lightPole',{height:6,diameter:.14},scene);pole.position.set(i%2?-13:13,3,-20+i*4.2);pole.material=darkMats[0];const bulb=new B.PointLight('streetLamp',new B.Vector3(pole.position.x,6,pole.position.z),scene);bulb.diffuse=new B.Color3(.65,.75,1);bulb.intensity=16;bulb.range=9}
   scene.onPointerObservable.add(info=>{if(info.type===B.PointerEventTypes.POINTERPICK){const rank=info.pickInfo?.pickedMesh?.metadata?.rank;if(rank)onSelect(rank)}});
   engine.runRenderLoop(()=>scene.render());const resize=()=>engine.resize();window.addEventListener('resize',resize);cleanup=()=>{window.removeEventListener('resize',resize);scene.dispose();engine.dispose()};
