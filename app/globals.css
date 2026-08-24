@@ -23,9 +23,6 @@
 .hud-close{position:absolute;top:7px;right:8px;border:0;background:transparent;color:#858b8f;font-size:17px;line-height:1;cursor:pointer}.hud-close:hover{color:var(--acid)}
 @media(max-width:850px){.babylon-page .rank-card{left:auto;right:10px;bottom:50px;width:210px}.babylon-page .card-top{height:27px}.babylon-page .rank-row{display:flex;padding:7px 10px}.babylon-page .rank-number{font-size:26px}.babylon-page .stats-row{display:none}.babylon-page .outbid-btn{margin:6px 9px;padding:9px}.babylon-page .rank-card>p{display:none}}
 .mobile-walk{display:none}
-.billboard-rank-tag{position:absolute;z-index:14;transform:translate(-50%,-50%);min-width:42px;height:34px;padding:0 9px;border:2px solid #d7ff35;border-radius:5px;background:#080b0ff2;color:#d7ff35;font:950 17px/1 Arial;box-shadow:0 0 13px #d7ff35aa,0 4px 12px #000;cursor:pointer;pointer-events:auto}
-.billboard-rank-tag.top-rank{min-width:56px;height:43px;border-width:3px;background:#d7ff35;color:#080a0b;font-size:23px;box-shadow:0 0 22px #d7ff35}
-.billboard-rank-tag:hover,.billboard-rank-tag:focus-visible{transform:translate(-50%,-50%) scale(1.12);outline:2px solid #fff}
 @media(max-width:850px){
   .mobile-walk{position:absolute;z-index:15;left:12px;bottom:52px;display:flex;flex-direction:column;align-items:center;gap:5px;user-select:none;-webkit-user-select:none}
   .mobile-walk>div{display:flex;gap:5px}
@@ -37,6 +34,4 @@
   .babylon-page .rank-card{max-width:calc(100vw - 152px)}
   .topbar .brand{font-size:16px;letter-spacing:-.8px}
   .topbar .sign-in{padding:10px 11px}
-  .billboard-rank-tag{min-width:38px;height:32px;font-size:15px}
-  .billboard-rank-tag.top-rank{min-width:48px;height:39px;font-size:20px}
 }
