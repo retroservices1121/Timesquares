@@ -15,7 +15,7 @@ export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTML
   try{
     const imported=await B.SceneLoader.ImportMeshAsync('', '/models/', 'timesquare-web.glb', scene);if(disposed)return;
     const roots=imported.meshes.filter(m=>!m.parent);const vectors=roots.length?roots[0].getHierarchyBoundingVectors(true):scene.getWorldExtends();const center=vectors.min.add(vectors.max).scale(.5);const extent=vectors.max.subtract(vectors.min);const radius=Math.max(extent.x,extent.y,extent.z);
-    const eyeY=vectors.min.y+extent.y*.012;const marginX=extent.x*.055;const marginZ=extent.z*.12;const startX=vectors.max.x-marginX-extent.x*.08;
+    const eyeY=vectors.min.y+extent.y*.015;const marginX=extent.x*.055;const marginZ=extent.z*.12;const startX=vectors.max.x-marginX-extent.x*.08;
     camera.position.set(startX,eyeY,center.z);camera.setTarget(new B.Vector3(center.x,eyeY+extent.y*.06,center.z));camera.speed=Math.max(.08,radius*.0038);
     const candidates=billboardNodes.map(name=>scene.getMeshByName(name)).filter((mesh):mesh is B.AbstractMesh=>Boolean(mesh));
     const area=(mesh:B.AbstractMesh)=>{const box=mesh.getBoundingInfo().boundingBox;const size=box.maximumWorld.subtract(box.minimumWorld);return Math.max(size.x*size.y,size.x*size.z,size.y*size.z)};
