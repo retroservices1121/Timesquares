@@ -15,12 +15,12 @@ export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTML
   try{
     const imported=await B.SceneLoader.ImportMeshAsync('', '/models/', 'timesquare-web.glb', scene);if(disposed)return;
     const roots=imported.meshes.filter(m=>!m.parent);const vectors=roots.length?roots[0].getHierarchyBoundingVectors(true):scene.getWorldExtends();const center=vectors.min.add(vectors.max).scale(.5);const extent=vectors.max.subtract(vectors.min);const radius=Math.max(extent.x,extent.y,extent.z);
-    const eyeY=vectors.min.y+extent.y*.015;const marginX=extent.x*.055;const marginZ=extent.z*.12;const startX=vectors.max.x-marginX-extent.x*.08;
-    camera.position.set(startX,eyeY,center.z);camera.setTarget(new B.Vector3(center.x,eyeY+extent.y*.06,center.z));camera.speed=Math.max(.08,radius*.0038);
+    const eyeY=vectors.min.y+extent.y*.021;const marginX=extent.x*.055;const marginZ=extent.z*.12;const startX=vectors.max.x-marginX-extent.x*.08;
+    camera.position.set(startX,eyeY,center.z);camera.speed=Math.max(.08,radius*.0038);
     const candidates=billboardNodes.map(name=>scene.getMeshByName(name)).filter((mesh):mesh is B.AbstractMesh=>Boolean(mesh));
     const area=(mesh:B.AbstractMesh)=>{const box=mesh.getBoundingInfo().boundingBox;const size=box.maximumWorld.subtract(box.minimumWorld);return Math.max(size.x*size.y,size.x*size.z,size.y*size.z)};
-    candidates.sort((a,b)=>area(b)-area(a));
-    candidates.slice(0,5).forEach((mesh,index)=>{const [name,tag,bg,fg]=featured[index];mesh.metadata={...(mesh.metadata||{}),rank:index+1};mesh.isPickable=true;
+    candidates.sort((a,b)=>area(b)-area(a));const topFive=candidates.slice(0,5);const topCenter=topFive.reduce((sum,mesh)=>sum.add(mesh.getBoundingInfo().boundingBox.centerWorld),B.Vector3.Zero()).scale(1/Math.max(1,topFive.length));camera.setTarget(new B.Vector3(topCenter.x,Math.max(eyeY+extent.y*.07,topCenter.y),topCenter.z));
+    topFive.forEach((mesh,index)=>{const [name,tag,bg,fg]=featured[index];mesh.metadata={...(mesh.metadata||{}),rank:index+1};mesh.isPickable=true;
       const tex=new B.DynamicTexture(`featured_${index+1}`,{width:1024,height:512},scene,false);const ctx=tex.getContext();ctx.fillStyle=bg;ctx.fillRect(0,0,1024,512);ctx.strokeStyle=fg;ctx.lineWidth=12;ctx.strokeRect(18,18,988,476);ctx.fillStyle=fg;ctx.font='900 52px Arial';ctx.fillText(`#${index+1}`,48,82);ctx.font='900 130px Arial';ctx.fillText(name,48,286);ctx.font='bold 30px monospace';ctx.fillText(tag,52,382);tex.update();const bm=new B.StandardMaterial(`featured_material_${index+1}`,scene);bm.diffuseTexture=tex;bm.emissiveTexture=tex;bm.emissiveColor=B.Color3.White();bm.disableLighting=true;bm.backFaceCulling=false;mesh.material=bm;});
     candidates.slice(5).forEach((mesh,index)=>{mesh.metadata={...(mesh.metadata||{}),rank:index+6};mesh.isPickable=true});
     scene.onBeforeRenderObservable.add(()=>{camera.position.x=Math.min(vectors.max.x-marginX,Math.max(vectors.min.x+marginX,camera.position.x));camera.position.z=Math.min(vectors.max.z-marginZ,Math.max(vectors.min.z+marginZ,camera.position.z));camera.position.y=eyeY;camera.cameraDirection.y=0;});
