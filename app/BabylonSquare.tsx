@@ -7,7 +7,7 @@ const featured=[['VOIDLABS','THE FUTURE IS YOURS','#071b52','#62b8ff'],['AURORA'
 
 export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTMLCanvasElement>(null);const [status,setStatus]=useState('Loading the Square…');useEffect(()=>{let disposed=false;let cleanup=()=>{};(async()=>{
   const B=await import('@babylonjs/core');await import('@babylonjs/loaders/glTF');if(disposed||!canvas.current)return;
-  const engine=new B.Engine(canvas.current,true,{preserveDrawingBuffer:true,stencil:true,adaptToDeviceRatio:true});engine.setHardwareScalingLevel(window.devicePixelRatio>1.5?1.35:1);
+  const engine=new B.Engine(canvas.current,true,{preserveDrawingBuffer:false,stencil:false,adaptToDeviceRatio:true});engine.setHardwareScalingLevel(window.devicePixelRatio>1.5?1.5:1);
   const scene=new B.Scene(engine);scene.clearColor=new B.Color4(.004,.007,.014,1);scene.fogMode=B.Scene.FOGMODE_EXP2;scene.fogDensity=.0035;scene.fogColor=new B.Color3(.012,.02,.035);
   const camera=new B.UniversalCamera('streetCamera',B.Vector3.Zero(),scene);camera.minZ=.04;camera.inertia=.68;camera.angularSensibility=3200;camera.keysUp=[87,38];camera.keysDown=[83,40];camera.keysLeft=[65,37];camera.keysRight=[68,39];camera.attachControl(canvas.current,true);
   const hemi=new B.HemisphericLight('night',new B.Vector3(0,1,0),scene);hemi.intensity=.72;hemi.diffuse=new B.Color3(.52,.65,.8);hemi.groundColor=new B.Color3(.08,.06,.11);
@@ -29,4 +29,4 @@ export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTML
     setStatus('');
   }catch(error){console.error(error);setStatus('3D scene unavailable — open the leaderboard');}
   engine.runRenderLoop(()=>scene.render());const resize=()=>engine.resize();window.addEventListener('resize',resize);cleanup=()=>{window.removeEventListener('resize',resize);scene.dispose();engine.dispose()};
-  })();return()=>{disposed=true;cleanup()};},[onSelect]);return <div className="babylon-stage"><canvas ref={canvas} className="babylon-canvas" aria-label="Interactive 3D Times Square billboard leaderboard"/>{status&&<div className="scene-loading" role="status"><i/><span>{status}</span></div>}</div>}
+  })();return()=>{disposed=true;cleanup()};},[onSelect]);return <div className="babylon-stage"><canvas ref={canvas} className="babylon-canvas" aria-label="Interactive 3D Times Square billboard leaderboard"/>{status&&<div className="scene-loading" role="status"><div className="load-skyline"><i/><i/><i/><i/><i/></div><strong>TIMESQUARE<span>.LOL</span></strong><small>{status}</small><em>30 LIVE BILLBOARDS · ENTERING BROADWAY</em></div>}</div>}
