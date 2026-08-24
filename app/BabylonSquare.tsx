@@ -8,13 +8,13 @@ export default function BabylonSquare({onSelect}:Props){const canvas=useRef<HTML
   const B=await import('@babylonjs/core');await import('@babylonjs/loaders/glTF');if(disposed||!canvas.current)return;
   const engine=new B.Engine(canvas.current,true,{preserveDrawingBuffer:true,stencil:true,adaptToDeviceRatio:true});engine.setHardwareScalingLevel(window.devicePixelRatio>1.5?1.35:1);
   const scene=new B.Scene(engine);scene.clearColor=new B.Color4(.004,.007,.014,1);scene.fogMode=B.Scene.FOGMODE_EXP2;scene.fogDensity=.0035;scene.fogColor=new B.Color3(.012,.02,.035);
-  const camera=new B.ArcRotateCamera('camera',Math.PI/2,1.22,28,B.Vector3.Zero(),scene);camera.lowerBetaLimit=.7;camera.upperBetaLimit=1.48;camera.wheelPrecision=45;camera.panningSensibility=0;camera.attachControl(canvas.current,true);
+  const camera=new B.ArcRotateCamera('camera',Math.PI/2,1.22,28,B.Vector3.Zero(),scene);camera.lowerBetaLimit=.55;camera.upperBetaLimit=1.52;camera.wheelPrecision=9;camera.pinchPrecision=12;camera.useNaturalPinchZoom=true;camera.panningSensibility=95;camera.attachControl(canvas.current,true);
   const hemi=new B.HemisphericLight('night',new B.Vector3(0,1,0),scene);hemi.intensity=.72;hemi.diffuse=new B.Color3(.52,.65,.8);hemi.groundColor=new B.Color3(.08,.06,.11);
   const glow=new B.GlowLayer('billboardGlow',scene,{blurKernelSize:22});glow.intensity=.35;
   try{
     const imported=await B.SceneLoader.ImportMeshAsync('', '/models/', 'timesquare-web.glb', scene);if(disposed)return;
     const roots=imported.meshes.filter(m=>!m.parent);const vectors=roots.length?roots[0].getHierarchyBoundingVectors(true):scene.getWorldExtends();const center=vectors.min.add(vectors.max).scale(.5);const extent=vectors.max.subtract(vectors.min);const radius=Math.max(extent.x,extent.y,extent.z);
-    camera.setTarget(new B.Vector3(center.x,center.y*.62,center.z));camera.radius=radius*.72;camera.lowerRadiusLimit=radius*.38;camera.upperRadiusLimit=radius*1.05;
+    camera.setTarget(new B.Vector3(center.x,vectors.min.y+extent.y*.2,center.z));camera.radius=radius*.5;camera.lowerRadiusLimit=radius*.025;camera.upperRadiusLimit=radius*1.25;camera.inertia=.72;
     billboardNodes.forEach((name,index)=>{const mesh=scene.getMeshByName(name);if(mesh){mesh.metadata={...(mesh.metadata||{}),rank:index+1};mesh.isPickable=true}});
     scene.onPointerObservable.add(info=>{if(info.type===B.PointerEventTypes.POINTERPICK){let mesh=info.pickInfo?.pickedMesh;while(mesh&&!mesh.metadata?.rank)mesh=mesh.parent as B.AbstractMesh|null;if(mesh?.metadata?.rank)onSelect(mesh.metadata.rank)}});
     setStatus('');
