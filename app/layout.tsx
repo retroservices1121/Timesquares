@@ -13,10 +13,10 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Timesquare.lol — Own the Biggest Billboard on the Internet',
+  title: 'Timesquares.lol — Own the Biggest Billboard on the Internet',
   description: 'Bid your way up the square. The bigger the bid, the bigger the billboard.',
-  openGraph: { title: 'TIMESQUARE.LOL', description: 'Own the biggest billboard on the internet.', images: ['/og.png'] },
-  twitter: { card: 'summary_large_image', title: 'TIMESQUARE.LOL', description: 'Own the biggest billboard on the internet.', images: ['/og.png'] },
+  openGraph: { title: 'TIMESQUARES.LOL', description: 'Own the biggest billboard on the internet.', images: ['/og.png'] },
+  twitter: { card: 'summary_large_image', title: 'TIMESQUARES.LOL', description: 'Own the biggest billboard on the internet.', images: ['/og.png'] },
 };
 
 export default function RootLayout({
