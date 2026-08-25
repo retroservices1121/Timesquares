@@ -26,6 +26,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY&&<script defer crossOrigin="anonymous" data-clerk-publishable-key={process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY} src="https://cdn.jsdelivr.net/npm/@clerk/clerk-js@6/dist/clerk.browser.js"/>}
+        {process.env.NEXT_PUBLIC_DATAFAST_WEBSITE_ID&&<script defer data-website-id={process.env.NEXT_PUBLIC_DATAFAST_WEBSITE_ID} data-domain={process.env.NEXT_PUBLIC_DATAFAST_DOMAIN||'timesquares.lol'} data-disable-console="true" src="https://datafa.st/js/script.js"/>}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
