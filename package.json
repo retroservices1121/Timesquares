@@ -10,15 +10,18 @@
     "build": "vinext build",
     "start": "vinext start",
     "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "test": "node --test tests/*.test.mjs",
     "db:generate": "drizzle-kit generate"
   },
   "dependencies": {
     "@babylonjs/core": "^8.31.1",
     "@babylonjs/loaders": "^8.31.1",
+    "@clerk/nextjs": "^7.8.0",
     "drizzle-orm": "0.45.2",
     "next": "16.2.6",
     "react": "19.2.6",
-    "react-dom": "19.2.6"
+    "react-dom": "19.2.6",
+    "standardwebhooks": "^1.0.0"
   },
   "devDependencies": {
     "@cloudflare/vite-plugin": "1.37.1",

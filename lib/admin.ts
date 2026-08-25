@@ -1,0 +1,2 @@
+import {clerkEmail,verifyClerkRequest} from './clerk';
+export async function requireAdmin(request:Request){const claims=await verifyClerkRequest(request);if(!claims)return null;const email=(await clerkEmail(claims.sub))?.toLowerCase();const allowed=(process.env.ADMIN_EMAILS||'').split(',').map(item=>item.trim().toLowerCase()).filter(Boolean);return email&&allowed.includes(email)?{...claims,email}:null}

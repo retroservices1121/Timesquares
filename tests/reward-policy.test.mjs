@@ -1,0 +1,10 @@
+import test from 'node:test';import assert from 'node:assert/strict';import {automaticRewardCount,minimumBookableDate,rewardEconomics} from '../lib/reward-policy.mjs';
+test('$749 does not unlock a reward',()=>assert.equal(automaticRewardCount(74900,75000,'first_reward_only'),0));
+test('$750 unlocks the first reward',()=>assert.equal(automaticRewardCount(75000,75000,'first_reward_only'),1));
+test('$1,500 remains one reward by default',()=>assert.equal(automaticRewardCount(150000,75000,'first_reward_only'),1));
+test('$1,500 earns two rewards in repeat mode',()=>assert.equal(automaticRewardCount(150000,75000,'repeat_every_threshold'),2));
+test('manual after first grants only the automatic first reward',()=>assert.equal(automaticRewardCount(150000,75000,'manual_after_first'),1));
+test('lead time uses five full UTC days',()=>assert.equal(minimumBookableDate('2026-08-25T18:00:00Z',5),'2026-08-30'));
+test('economics separates gross remaining and fulfillment percentage',()=>assert.deepEqual(rewardEconomics(75000,50000,0),{grossRemainingBeforePlatformCosts:25000,fulfillmentCostPercentage:66.66666666666666}));
+test('rush fees reduce gross remaining separately',()=>assert.equal(rewardEconomics(75000,50000,7500).grossRemainingBeforePlatformCosts,17500));
+test('duplicate payment events can be made idempotent by payment and event type',()=>{const ledger=new Set(),record=(payment,event)=>{const key=`${payment}:${event}`;if(ledger.has(key))return false;ledger.add(key);return true};assert.equal(record('pay_1','payment_succeeded'),true);assert.equal(record('pay_1','payment_succeeded'),false)});
