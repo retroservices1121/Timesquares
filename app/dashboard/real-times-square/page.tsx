@@ -1,2 +1,3 @@
 import RealTimesSquareClaim from './RealTimesSquareClaim';
-export default function Page(){return <RealTimesSquareClaim/>}
+import RewardTermsGate from './RewardTermsGate';
+export default function Page(){return <><RewardTermsGate/><RealTimesSquareClaim/></>}

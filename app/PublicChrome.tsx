@@ -1,0 +1,3 @@
+import AuthControls from './AuthControls';
+export function PublicNav(){return <header className="public-nav"><a className="brand" href="/">TIMESQUARES<span>.LOL</span></a><nav><a href="/">THE SQUARE</a><a href="/leaderboard">LEADERBOARD</a><a href="/real-times-square">MAKE IT TO TIMES SQUARE</a><AuthControls/></nav></header>}
+export function PublicFooter(){return <footer className="public-footer"><a className="brand" href="/">TIMESQUARES<span>.LOL</span></a><p>Virtual competition. Real-world possibility.</p><nav><a href="/terms">TERMS</a><a href="/privacy">PRIVACY</a><a href="/advertising-rules">ADVERTISING RULES</a></nav></footer>}

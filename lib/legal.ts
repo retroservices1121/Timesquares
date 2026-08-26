@@ -1,0 +1,3 @@
+/** LEGAL DRAFT — REQUIRES QUALIFIED ATTORNEY REVIEW BEFORE PRODUCTION LAUNCH. */
+export const LEGAL_VERSIONS={terms:'2026-08-26-draft-1',privacy:'2026-08-26-draft-1',advertising_rules:'2026-08-26-draft-1',real_times_square_reward_terms:'2026-08-26-draft-1'} as const;
+export const legalConfig={businessName:process.env.LEGAL_BUSINESS_NAME||'Timesquares.lol',supportEmail:process.env.SUPPORT_EMAIL||'SUPPORT_EMAIL',legalEmail:process.env.LEGAL_EMAIL||'LEGAL_EMAIL',governingState:process.env.GOVERNING_STATE||'GOVERNING_STATE',rewardExpirationDays:Number(process.env.REWARD_EXPIRATION_DAYS||0),rewardsTransferable:process.env.REWARDS_TRANSFERABLE==='true'};
