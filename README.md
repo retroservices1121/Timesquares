@@ -1,4 +1,4 @@
-# Timesquare.lol
+# Timesquares.lol
 A competitive advertising marketplace where rank becomes a living city. Bid more, move up, and earn a more prominent billboard; when outbid, the advertiser moves down instead of disappearing.
 
 ## Included
@@ -9,3 +9,6 @@ Copy `.env.example` to `.env.local`, fill the services used by your deployment, 
 
 ## Architecture
 The ranking engine is independent of rendering. A server-verified active bid produces a sorted rank; ranks 1–30 map to stable billboard identifiers. Creative bytes belong in object storage, with metadata and ownership in the relational database. Payments must be confirmed through a signed webhook and the final bid revalidated while activation and placement history update atomically.
+
+## Production deployment
+The application currently targets Cloudflare Workers with D1 and R2 bindings. See [DEPLOYMENT.md](./DEPLOYMENT.md) for the production checklist, environment variables, database migrations, webhook routes, and domain cutover plan.
