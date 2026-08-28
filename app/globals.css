@@ -46,3 +46,7 @@
   .topbar .brand{font-size:16px;letter-spacing:-.8px}
   .topbar .sign-in{padding:10px 11px}
 }
+/* Billboard profile and bidding actions */
+.advertiser-link{font:900 15px Arial;color:#fff}.advertiser-link:hover{color:var(--acid)}
+.leader-actions{display:flex;justify-content:flex-end;gap:12px}.leader-actions a{color:var(--acid);font:800 8px monospace}.leader-actions a:first-child{color:#aeb3b6}
+.profile-bid .primary-btn{margin-top:22px;width:max-content}
