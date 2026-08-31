@@ -36,6 +36,7 @@ Apply the SQL migrations in order:
 1. `drizzle/0000_hybrid_bidding.sql`
 2. `drizzle/0001_real_times_square_rewards.sql`
 3. `drizzle/0002_terms_acceptances.sql`
+4. `drizzle/0003_expand_billboard_slots.sql`
 
 Back up and export production data before moving traffic. Verify bid rankings, checkout intents, qualifying-spend events, real-world rewards, and terms acceptances after import.
 
