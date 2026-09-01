@@ -1,14 +1,14 @@
 import {env} from 'cloudflare:workers';
 import {clerkEmail,verifyClerkRequest} from '../../../lib/clerk';
 import {LEGAL_VERSIONS} from '../../../lib/legal';
-import {advertisers,BILLBOARD_COUNT} from '../../data';
+import {advertisers,BILLBOARD_COUNT,minimumBid} from '../../data';
 
 const current=advertisers.map(([,bid])=>bid);
 export async function POST(request:Request){
   const claims=await verifyClerkRequest(request);if(!claims)return Response.json({error:'Sign in with Clerk to continue.'},{status:401});
   const accepted=await env.DB.prepare(`SELECT 1 accepted FROM terms_acceptances WHERE user_id=? AND terms_type='terms' AND version=?`).bind(claims.sub,LEGAL_VERSIONS.terms).first();if(!accepted)return Response.json({error:'Accept the current Terms before placing your first paid bid.',requiresTerms:true},{status:428});
   const body=await request.json() as {amount?:number;slot?:number;mode?:'exact'|'best'};const amount=Math.floor(Number(body.amount));const requestedSlot=Math.floor(Number(body.slot));const mode=body.mode==='best'?'best':'exact';if(!Number.isFinite(amount)||amount<1||requestedSlot<1||requestedSlot>BILLBOARD_COUNT)return Response.json({error:'Invalid bid.'},{status:400});
-  const projected=current.findIndex(value=>amount>=Math.ceil(value*1.1))+1;const slot=mode==='best'?(projected||BILLBOARD_COUNT):requestedSlot;const minimum=Math.ceil(current[slot-1]*1.1);if(amount<minimum)return Response.json({error:`Minimum for Billboard ${slot} is $${minimum.toLocaleString()}.`},{status:400});
+  const projected=current.findIndex(value=>amount>=minimumBid(value))+1;const slot=mode==='best'?(projected||BILLBOARD_COUNT):requestedSlot;const minimum=minimumBid(current[slot-1]);if(amount<minimum)return Response.json({error:`Minimum for Billboard ${slot} is $${minimum.toLocaleString()}.`},{status:400});
   const apiKey=process.env.DODO_PAYMENTS_API_KEY,productId=process.env.DODO_PAYMENTS_PRODUCT_ID;if(!apiKey||!productId)return Response.json({error:'Checkout is ready, but Dodo Payments keys still need to be added.'},{status:503});
   const email=await clerkEmail(claims.sub);const origin=new URL(request.url).origin;const intentId=crypto.randomUUID();await env.DB.prepare('INSERT OR IGNORE INTO live_placements (slot, amount_cents, updated_at) VALUES (?, ?, ?)').bind(slot,current[slot-1]*100,new Date().toISOString()).run();
   await env.DB.prepare('INSERT INTO checkout_intents (id, clerk_user_id, email, requested_slot, assigned_slot, mode, amount_cents, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)').bind(intentId,claims.sub,email,requestedSlot,slot,mode,amount*100,'pending',new Date().toISOString()).run();
