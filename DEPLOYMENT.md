@@ -39,6 +39,7 @@ Apply the SQL migrations in order:
 4. `drizzle/0003_expand_billboard_slots.sql`
 5. `drizzle/0004_two_dollar_starting_bids.sql`
 6. `drizzle/0005_expand_all_billboard_panels.sql`
+7. `drizzle/0006_expand_complete_billboard_inventory.sql`
 
 Back up and export production data before moving traffic. Verify bid rankings, checkout intents, qualifying-spend events, real-world rewards, and terms acceptances after import.
 

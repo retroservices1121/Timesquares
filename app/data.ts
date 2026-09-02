@@ -6,7 +6,7 @@ const namedAdvertisers = [
   ['HALO',STARTING_BID,'Halo Thirty-One','4h 26m'],['PULSE',STARTING_BID,'Pulse Thirty-Two','7h 02m'],['FORGE',STARTING_BID,'Forge Thirty-Three','2h 39m'],['VANTA',STARTING_BID,'Vanta Thirty-Four','9h 18m'],['SPARK',STARTING_BID,'Spark Thirty-Five','1h 46m'],['AXIS',STARTING_BID,'Axis Thirty-Six','5h 33m'],
 ] as const;
 
-export const BILLBOARD_COUNT=64;
+export const BILLBOARD_COUNT=103;
 export const advertisers=[...namedAdvertisers,...Array.from({length:BILLBOARD_COUNT-namedAdvertisers.length},(_,index)=>{const slot=namedAdvertisers.length+index+1;return[`OPEN SLOT ${slot}`,STARTING_BID,`Billboard ${slot}`,'AVAILABLE'] as const})];
 export const advertiserSlug=(name:string)=>name.toLowerCase().replace(/[^a-z0-9]/g,'');
 export const minimumBid=(bid:number)=>bid<=STARTING_BID?STARTING_BID:Math.ceil(bid*1.1);
