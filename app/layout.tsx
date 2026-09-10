@@ -12,7 +12,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
-const datafastWebsiteId = process.env.NEXT_PUBLIC_DATAFAST_WEBSITE_ID || 'dfid_X5EnGtRFrVh3YXI0ZaFHz';
+const datafastWebsiteId = (process.env.NEXT_PUBLIC_DATAFAST_WEBSITE_ID || 'dfid_X5EnGtRFrVh3YXI0ZaFHz').trim();
 const datafastDomain = process.env.NEXT_PUBLIC_DATAFAST_DOMAIN || 'timesquares.lol';
 
 export const metadata: Metadata = {

@@ -1,3 +1,1 @@
-import RealTimesSquareClaim from './RealTimesSquareClaim';
-import RewardTermsGate from './RewardTermsGate';
-export default function Page(){return <><RewardTermsGate/><RealTimesSquareClaim/></>}
+import {redirect} from 'next/navigation';export default function Page(){redirect('/real-times-square/book')}

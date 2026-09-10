@@ -1,0 +1,2 @@
+import {PublicFooter,PublicNav} from '../../PublicChrome';import BookingFlow from './BookingFlow';
+export default function Book(){return <main className="inner-page"><PublicNav/><section className="page-head"><p>REAL TIMES SQUARE · BILLBOARD #49</p><h1>BOOK BILLBOARD #49</h1><span>$750 · 15 seconds · once every hour · 24 hours · approximately 24 appearances</span></section><BookingFlow/><PublicFooter/></main>}

@@ -1,0 +1,2 @@
+import {env} from 'cloudflare:workers';
+export async function GET(){const campaign=await env.DB.prepare(`SELECT slug,advertiser_name,website,social_links_json,status,campaign_start_datetime,campaign_end_datetime,timezone,scheduled_minute,duration_seconds,creative_file_url,creative_headline FROM real_billboard_campaigns WHERE status IN ('scheduled','live') AND campaign_start_datetime<=? AND campaign_end_datetime>? ORDER BY campaign_start_datetime LIMIT 1`).bind(new Date().toISOString(),new Date().toISOString()).first();return Response.json({campaign})}
